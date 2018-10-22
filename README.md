@@ -25,19 +25,22 @@ Yuankai Huo, Aaron Carass, Susan M. Resnick, Dzung L. Pham, Jerry L. Prince, and
 sudo docker pull vuiiscci/slant:deep_brain_seg_v1_0_0
 sudo docker pull masidocker/spiders:MaCRUISE_v3_1_0
 ```
-#### Run SLANT brain segmentation
+#### Step 1, Run SLANT brain segmentation
 You can run the following command or change the "input_dir", then you will have the final segmentation results in output_dir
 ```
-# you need to specify the input directory
+# you need to specify the input and output directory
 export input_dir=/home/input_dir   
+export output_dir=/home/output_dir
 # make that directory
+export SLANT_dir=$output_dir/SLANT
 sudo mkdir $input_dir
+# set output directory
+sudo mkdir $output_dir
+sudo mkdir $SLANT_dir
 # download the test volume file, you can even put multiple input files here, no worries.
 sudo wget -O  $input_dir/test_volume.nii.gz  https://www.nitrc.org/frs/download.php/10666/test_volume.nii.gz
-# set output directory
-export output_dir=$input_dir/output
-#run the docker
-sudo nvidia-docker run -it --rm -v $input_dir:/INPUTS/ -v $output_dir:/OUTPUTS masidocker/spiders:deep_brain_seg_v1_0_0 /extra/run_deep_brain_seg.sh
+# run the docker
+sudo nvidia-docker run -it --rm -v $input_dir:/INPUTS/ -v $SLANT_dir:/OUTPUTS masidocker/spiders:deep_brain_seg_v1_0_0 /extra/run_deep_brain_seg.sh
 ```
 - You will see the final a segmentation file in "FinalResult"
 - You will see the final a overlay pdf in "FinalPDF"
