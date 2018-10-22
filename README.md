@@ -33,26 +33,41 @@ You can run the following command or change the "input_dir", then you will have 
 # you need to specify the input and output directory
 export input_dir=/home/input_dir   
 export output_dir=/home/output_dir
-# make that directory
-export SLANT_dir=$output_dir/SLANT
+# make SLANT directory
+export SLANT_input_dir=$input_dir/SLANT
+export SLANT_output_dir=$output_dir/SLANT
 sudo mkdir $input_dir
-# set output directory
+sudo mkdir $SLANT_input_dir
 sudo mkdir $output_dir
-sudo mkdir $SLANT_dir
+sudo mkdir $SLANT_output_dir
 # download the test volume file, you can even put multiple input files here, no worries.
-sudo wget -O  $input_dir/test_volume.nii.gz  https://www.nitrc.org/frs/download.php/10666/test_volume.nii.gz
+sudo wget -O  $SLANT_input_dir/test_volume.nii.gz  https://www.nitrc.org/frs/download.php/10666/test_volume.nii.gz
 # run the docker
-sudo nvidia-docker run -it --rm -v $input_dir:/INPUTS/ -v $SLANT_dir:/OUTPUTS masidocker/spiders:deep_brain_seg_v1_0_0 /extra/run_deep_brain_seg.sh
+sudo nvidia-docker run -it --rm -v $SLANT_input_dir:/INPUTS/ -v $SLANT_output_dir:/OUTPUTS masidocker/spiders:deep_brain_seg_v1_0_0 /extra/run_deep_brain_seg.sh
 ```
-- You will see the final a segmentation file in "FinalResult"
+#### Step 2, Run MaCRUISE surface reconstruction
+You can run the following command or change the "input_dir", then you will have the final segmentation results in output_dir
+```
+# make MaCRUISE directory
+export MaCRUISE_input_dir=$input_dir/MaCRUISE
+export MaCRUISE_output_dir=$output_dir/MaCRUISE
+sudo mkdir $MaCRUISE_input_dir
+sudo mkdir $MaCRUISE_output_dir
+# prepare files
+cp $SLANT_input_dir/test_volume.nii.gz $MaCRUISE_input_dir/T1.nii.gz
+cp $SLANT_output_dir/FinalResult/test_volume_seg.nii.gz $MaCRUISE_input_dir/orig_target_seg.nii.gz
+# run the docker
+sudo docker run --rm -v $MaCRUISE_input_dir:/INPUTS/ -v $MaCRUISE_output_dir:/OUTPUTS/ masidocker/spiders:MaCRUISE_v3_1_0 xvfb-run -a --server-args="-screen 0 1920x1200x24 -ac +extension GLX" /extra/MaCRUISE_v3_1_0
+
+```
+
+- You will see the final a segmentation file in "../MaCRUISE/MaCRUISE/"
+- You will see the final surface file in "" and ""
 - You will see the final a overlay pdf in "FinalPDF"
 - You will see the final a txt file contains all label names and volume in "FinalVolTxt".
 
 ## Source Code
-The SLANT is a whole brain segmentation pipeline that contains (1) pre-processing, (2) deep learning, (3) post-processing, which have all been contained in the Docker. The main scratch in Docker is the "run_deep_brain_seg.sh". The related source code and binary files have been included in the Docker. They can also be found in the "matlab" and "python".
-
-- Pre- and Post-processing code can be found in "matlab"
-- Train and testing code for deep learning part can be found in "python"
+The source code have all been contained in the Docker
 
 ## Detailed envrioment setting  
 
