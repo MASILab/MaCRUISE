@@ -27,7 +27,7 @@ sudo docker pull vuiiscci/slant:deep_brain_seg_v1_0_0
 # Get MaCRUISE docker image (~10G disk space)
 sudo docker pull masidocker/spiders:MaCRUISE_v3_1_0
 ```
-#### Step 1, Run [SLANT](https://github.com/MASILab/SLANTbrainSeg)  brain segmentation
+#### Step 1, Run [SLANT](https://github.com/MASILab/SLANTbrainSeg)  brain segmentation (will take ~ 15 mins)
 You can run the following command or change the "input_dir", then you will have the final segmentation results in output_dir
 ```
 # you need to specify the input and output directory
@@ -45,7 +45,7 @@ sudo wget -O  $SLANT_input_dir/test_volume.nii.gz  https://www.nitrc.org/frs/dow
 # run the docker
 sudo nvidia-docker run -it --rm -v $SLANT_input_dir:/INPUTS/ -v $SLANT_output_dir:/OUTPUTS masidocker/spiders:deep_brain_seg_v1_0_0 /extra/run_deep_brain_seg.sh
 ```
-#### Step 2, Run MaCRUISE surface reconstruction
+#### Step 2, Run MaCRUISE surface reconstruction (will take several hours)
 You can run the following command or change the "input_dir", then you will have the final segmentation results in output_dir
 ```
 # make MaCRUISE directory
