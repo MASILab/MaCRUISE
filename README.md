@@ -20,9 +20,11 @@ Yuankai Huo, Aaron Carass, Susan M. Resnick, Dzung L. Pham, Jerry L. Prince, and
 ```
 
 ## Quick Start
-#### Get our docker image
+#### Get our docker images, one is for [SLANT](https://github.com/MASILab/SLANTbrainSeg)
+ whole brain segmentaiton, another one is for MaCRUISE
 ```
 sudo docker pull vuiiscci/slant:deep_brain_seg_v1_0_0
+sudo docker pull masidocker/spiders:MaCRUISE_v3_1_0
 ```
 #### Run SLANT brain segmentation
 You can run the following command or change the "input_dir", then you will have the final segmentation results in output_dir
