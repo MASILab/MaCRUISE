@@ -61,7 +61,7 @@ sudo docker run --rm -v $MaCRUISE_input_dir:/INPUTS/ -v $MaCRUISE_output_dir:/OU
 
 ```
 
-- You will see the final egmentation file in "../MaCRUISE/MaCRUISE/Output/SegRefine"
+- You will see the final segmentation file in "../MaCRUISE/MaCRUISE/Output/SegRefine"
 - You will see the final surface file in "../MaCRUISE/MaCRUISE/Output/Surfaces" and "../MaCRUISE/MaCRUISE/Output/Surfaces_FreeView"
 - You will see the final a overlay pdf in "../MaCRUISE/MaCRUISE/Output/PDF"
 
